@@ -44,13 +44,10 @@ func (h *helper) SaveToken(token string) error {
 
 	// Encode the configuration struct as JSON and write to the file
 	encoder := json.NewEncoder(file)
-	err = encoder.Encode(config)
-	if err != nil {
+	if err = encoder.Encode(config); err != nil {
 		fmt.Println("Error encoding JSON:", err)
 		return err
 	}
-
-	fmt.Println("Password encoded and stored in the configuration file.")
 
 	return nil
 }
@@ -85,8 +82,6 @@ func (h *helper) GetToken() (string, error) {
 		fmt.Println("Error decoding token:", err)
 		return "", err
 	}
-
-	fmt.Println("Decoded token:", string(decodedToken))
 
 	return string(decodedToken), nil
 }

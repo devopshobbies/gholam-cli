@@ -5,7 +5,6 @@ import (
 	"log"
 	"strings"
 
-	"github.com/davecgh/go-spew/spew"
 	"github.com/knadh/koanf/providers/env"
 	"github.com/knadh/koanf/providers/structs"
 	"github.com/knadh/koanf/v2"
@@ -13,14 +12,10 @@ import (
 
 const (
 	delimiter = "."
-
-	tagName = "koanf"
-
-	upTemplate     = "================ Loaded Configuration ================"
-	bottomTemplate = "======================================================"
+	tagName   = "koanf"
 )
 
-func Load(print bool) *Config {
+func Load() *Config {
 	k := koanf.New(delimiter)
 
 	// load default configuration from default function
@@ -37,11 +32,6 @@ func Load(print bool) *Config {
 	var tag = koanf.UnmarshalConf{Tag: tagName}
 	if err := k.UnmarshalWithConf("", &config, tag); err != nil {
 		log.Fatalf("error unmarshalling config: %v", err)
-	}
-
-	if print {
-		// pretty print loaded configuration using provided template
-		log.Printf("%s\n%v\n%s\n", upTemplate, spew.Sdump(config), bottomTemplate)
 	}
 
 	return &config

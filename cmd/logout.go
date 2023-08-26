@@ -14,7 +14,7 @@ type Logout struct{}
 
 func (cmd Logout) Command() *cobra.Command {
 	run := func(_ *cobra.Command, _ []string) {
-		cmd.main(config.Load(true))
+		cmd.main(config.Load())
 	}
 
 	return &cobra.Command{
