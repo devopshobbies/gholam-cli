@@ -27,14 +27,15 @@ func (cmd Register) Command() *cobra.Command {
 func (cmd *Register) main(cfg *config.Config) {
 	logger := logger.NewZap(cfg.Logger)
 
+	helper := helper.New(logger)
+
 	email, password, err := helper.GetEmailAndPassword()
 	if err != nil {
 		logger.Error("Prompt failed", zap.Error(err))
 		return
 	}
 
-	gholam := gholam.New()
-
+	gholam := gholam.New(cfg.Gholam, logger)
 	token, err := gholam.Register(email, password)
 	if err != nil {
 		logger.Error("Failed to register to the gholam", zap.Error(err))

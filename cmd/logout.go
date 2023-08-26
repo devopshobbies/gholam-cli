@@ -27,16 +27,22 @@ func (cmd Logout) Command() *cobra.Command {
 func (cmd *Logout) main(cfg *config.Config) {
 	logger := logger.NewZap(cfg.Logger)
 
+	helper := helper.New(logger)
+
 	token, err := helper.GetToken()
 	if err != nil {
 		logger.Error("Failed to get the token", zap.Error(err))
 		return
 	}
 
-	gholam := gholam.New()
-
+	gholam := gholam.New(cfg.Gholam, logger)
 	if err := gholam.Logout(token); err != nil {
 		logger.Error("Failed to logout from the Gholam", zap.Error(err))
+		return
+	}
+
+	if err := helper.DeleteToken(); err != nil {
+		logger.Error("Failed to delete the token", zap.Error(err))
 		return
 	}
 

@@ -10,7 +10,7 @@ import (
 const emailRegexPattern = `^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$`
 const passwordRegexPattern = `^(?=.*[a-z])(?=.*[A-Z]).{6,}$`
 
-func GetEmailAndPassword() (string, string, error) {
+func (h *helper) GetEmailAndPassword() (string, string, error) {
 	email, err := (&promptui.Prompt{
 		Label: "Enter your email",
 		Validate: func(input string) error {
