@@ -1,0 +1,50 @@
+project_name: gholam-cli
+release:
+  github:
+    owner: hubs-ai
+    name: gholam-cli
+builds:
+  - id: gholam-cli
+    goos:
+    - linux
+    - darwin
+    goarch:
+    - amd64
+    - arm64
+    env:
+      - CGO_ENABLED=0
+      - GO111MODULE=on
+    ldflags: -s -w
+      -X github.com/hubs-ai/gholam-cli/pkg/version.version={{.Version}}
+      -X github.com/hubs-ai/gholam-cli/pkg/version.gitSHA={{.Commit}}
+      -X github.com/hubs-ai/gholam-cli/pkg/version.buildTime={{.Date}}
+      -extldflags "-static"
+    flags: -tags netgo -installsuffix netgo
+    binary: gholam-cli
+    hooks: {}
+
+archives:
+  - id: gholam-cli
+    builds:
+      - gholam-cli
+    format: tar.gz
+    format_overrides:
+      - goos: windows
+        format: zip
+    name_template: "{{ .Binary }}_{{ .Os }}_{{ .Arch }}"
+
+checksum:
+  name_template: "{{ .ProjectName }}_checksums.txt"
+  algorithm: sha256
+
+brews:
+  - tap:
+      owner: hubs-ai
+      name: gholam-cli
+      branch: chore-{{.Tag}}
+      pull_request:
+        enabled: true
+    commit_author:
+      name: Mohammad Nasr
+      email: mohammadne.dev@gmail.com
+    description: "gholam-cli is an assistant for working with Gholam."
