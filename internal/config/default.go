@@ -8,7 +8,7 @@ import (
 func defaultConfig() *Config {
 	return &Config{
 		Gholam: &gholam.Config{
-			Backend: "",
+			Backend: "https://gholam.mohammadne.me/api/v1",
 		},
 		Logger: &logger.Config{
 			Development: true,

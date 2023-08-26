@@ -8,7 +8,7 @@ import (
 )
 
 const emailRegexPattern = `^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$`
-const passwordRegexPattern = `^(?=.*[a-z])(?=.*[A-Z]).{6,}$`
+const passwordRegexPattern = `^.{7,}$`
 
 func (h *helper) GetEmailAndPassword() (string, string, error) {
 	email, err := (&promptui.Prompt{
@@ -28,6 +28,7 @@ func (h *helper) GetEmailAndPassword() (string, string, error) {
 
 	password, err := (&promptui.Prompt{
 		Label: "Enter your password",
+		Mask:  '*',
 		Validate: func(input string) error {
 			if !regexp.MustCompile(passwordRegexPattern).MatchString(input) {
 				errString := "Invalid password has been given"
