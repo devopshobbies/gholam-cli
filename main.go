@@ -2,9 +2,6 @@ package main
 
 import (
 	"log"
-	"os"
-	"os/signal"
-	"syscall"
 
 	"github.com/hobs-ai/gholam-cli/cmd"
 	"github.com/spf13/cobra"
@@ -12,14 +9,14 @@ import (
 )
 
 func main() {
-	const description = "Gholam applications"
+	const description = "Gholam CLI is a tool to interact to the Gholam which is an AI-powerd translator application"
 	root := &cobra.Command{Short: description}
 
-	trap := make(chan os.Signal, 1)
-	signal.Notify(trap, syscall.SIGINT, syscall.SIGTERM)
-
 	root.AddCommand(
-		cmd.Translate{}.Command(trap),
+		cmd.Register{}.Command(),
+		cmd.Login{}.Command(),
+		cmd.Logout{}.Command(),
+		cmd.Translate{}.Command(),
 	)
 
 	if err := root.Execute(); err != nil {

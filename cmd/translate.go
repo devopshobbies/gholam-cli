@@ -2,6 +2,8 @@ package cmd
 
 import (
 	"os"
+	"os/signal"
+	"syscall"
 
 	"github.com/hobs-ai/gholam-cli/internal/config"
 	"github.com/hobs-ai/gholam-cli/pkg/logger"
@@ -12,7 +14,10 @@ import (
 
 type Translate struct{}
 
-func (cmd Translate) Command(trap chan os.Signal) *cobra.Command {
+func (cmd Translate) Command() *cobra.Command {
+	trap := make(chan os.Signal, 1)
+	signal.Notify(trap, syscall.SIGINT, syscall.SIGTERM)
+
 	run := func(_ *cobra.Command, _ []string) {
 		cmd.main(config.Load(true), trap)
 	}
