@@ -38,7 +38,7 @@ checksum:
   algorithm: sha256
 
 brews:
-  - tap:
+  - repository:
       owner: hubs-ai
       name: gholam-cli
       branch: chore-{{.Tag}}
